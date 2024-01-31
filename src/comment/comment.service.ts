@@ -1,19 +1,27 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCommentInput } from './dto/create-comment.input';
 import { UpdateCommentInput } from './dto/update-comment.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Comment } from './entities/comment.entity';
 import { Repository } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+import { Post } from 'src/posts/entities/post.entity';
 
 @Injectable()
 export class CommentService {
   constructor(
     @InjectRepository(Comment) private commentRepository: Repository<Comment>,
+    @InjectRepository(Post)
+    private readonly postRepository: Repository<Post>,
   ) {}
 
   async create(createCommentInput: CreateCommentInput): Promise<Comment> {
     const { content, post_id } = createCommentInput;
+
+    const post = await this.postRepository.findOneBy({ post_id });
+    if (!post) {
+      throw new NotFoundException(`Post with id ${post_id} not found`);
+    }
 
     const comment = this.commentRepository.create({
       comment_id: uuid(),
