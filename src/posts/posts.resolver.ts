@@ -45,8 +45,9 @@ export class PostsResolver {
     return post.message;
   }
 
-  // @Mutation(() => Post)
-  // removePost(@Args('id', { type: () => Int }) id: number) {
-  //   return this.postsService.remove(id);
-  // }
+  @Mutation(() => String)
+  async removePost(@Args('post_id', { type: () => String }) post_id: string) {
+    const post = await this.postsService.remove(post_id);
+    return post.message;
+  }
 }

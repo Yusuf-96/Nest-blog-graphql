@@ -85,7 +85,18 @@ export class PostsService {
     }
   }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} post`;
-  // }
+  async remove(post_id: string): Promise<{ message: string }> {
+    const post = await this.postRepository.findOne({
+      where: { post_id: post_id },
+      relations: ['comments'],
+    });
+
+    if (!post) {
+      throw new NotFoundException(`Post with id ${post_id} not found`);
+    }
+
+    await this.postRepository.remove(post);
+
+    return { message: 'Post Deleted successfully' };
+  }
 }
