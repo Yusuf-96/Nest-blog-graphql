@@ -25,14 +25,18 @@ scalar DateTime
 type Mutation {
   createComment(createCommentInput: CreateCommentInput!): Comment!
   createPost(createPostInput: CreatePostInput!): Post!
+  downvotePost(post_id: String!): String!
   updatePost(post_id: String!, updatePostInput: UpdatePostInput!): Post!
+  upvotePost(post_id: String!): String!
 }
 
 type Post {
   comments: [Comment!]!
   content: String!
   created_at: DateTime!
+  downvotes: Float!
   post_id: ID!
+  upvotes: Float!
 }
 
 type Query {

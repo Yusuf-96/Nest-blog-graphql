@@ -25,4 +25,10 @@ export class Post {
 
   @OneToMany(() => Comment, (comment) => comment.post)
   comments: Comment[];
+
+  @Column({ default: 0 }) 
+  upvotes: number;
+
+  @Column({ default: 0 })
+  downvotes: number;
 }

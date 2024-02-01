@@ -51,6 +51,40 @@ export class PostsService {
     return this.postRepository.save(post);
   }
 
+  async upvotePost(post_id: string): Promise<{ message: string }> {
+    try {
+      const post = await this.postRepository.findOneBy({ post_id });
+
+      if (!post) {
+        throw new NotFoundException(`Post with id ${post_id} not found`);
+      }
+
+      post.upvotes += 1;
+      await this.postRepository.save(post);
+
+      return { message: 'Post upvoted successfully' };
+    } catch (error) {
+      throw new Error(`Failed Upvote the post: ${error.message}`);
+    }
+  }
+
+  async downvotePost(post_id: string): Promise<{ message: string }> {
+    try {
+      const post = await this.postRepository.findOneBy({ post_id });
+
+      if (!post) {
+        throw new NotFoundException(`Post with id ${post_id} not found`);
+      }
+
+      post.downvotes += 1;
+      await this.postRepository.save(post);
+
+      return { message: 'Post downvoted successfully' };
+    } catch (error) {
+      throw new Error(`Failed DownVote the post: ${error.message}`);
+    }
+  }
+
   // remove(id: number) {
   //   return `This action removes a #${id} post`;
   // }

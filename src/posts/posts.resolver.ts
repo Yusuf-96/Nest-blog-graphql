@@ -31,6 +31,20 @@ export class PostsResolver {
     return this.postsService.update(post_id, updatePostInput);
   }
 
+  @Mutation(() => String)
+  async upvotePost(@Args('post_id') post_id: string) {
+    const post = await this.postsService.upvotePost(post_id);
+
+    return post.message;
+  }
+
+  @Mutation(() => String)
+  async downvotePost(@Args('post_id') post_id: string) {
+    const post = await this.postsService.downvotePost(post_id);
+
+    return post.message;
+  }
+
   // @Mutation(() => Post)
   // removePost(@Args('id', { type: () => Int }) id: number) {
   //   return this.postsService.remove(id);
