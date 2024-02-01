@@ -30,8 +30,9 @@ export class CommentResolver {
   //   return this.commentService.update(updateCommentInput.id, updateCommentInput);
   // }
 
-  // @Mutation(() => Comment)
-  // removeComment(@Args('id', { type: () => Int }) id: number) {
-  //   return this.commentService.remove(id);
-  // }
+  @Mutation(() => String)
+  async removeComment(@Args('comment_id', { type: () => String }) comment_id: string) {
+    let comment = await this.commentService.remove(comment_id);
+    return comment
+  }
 }

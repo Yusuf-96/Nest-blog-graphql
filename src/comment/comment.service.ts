@@ -44,7 +44,17 @@ export class CommentService {
   //   return `This action updates a #${id} comment`;
   // }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} comment`;
-  // }
+  async remove(coment_id: string): Promise<string> {
+    const comment = await this.commentRepository.findOneBy({
+      comment_id: coment_id,
+    });
+
+    if (!comment) {
+      throw new NotFoundException(`Comment with id ${coment_id} not found`);
+    }
+
+    await this.commentRepository.remove(comment);
+
+    return `This action removes a #${coment_id} comment`;
+  }
 }
