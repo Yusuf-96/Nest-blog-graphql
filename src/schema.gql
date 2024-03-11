@@ -45,8 +45,15 @@ type Query {
   comments: [Comment!]!
   post(post_id: String!): Post!
   posts: [Post!]!
+  user(email: String!): Users!
 }
 
 input UpdatePostInput {
   content: String!
+}
+
+type Users {
+  email: String!
+  userId: String!
+  username: String!
 }
