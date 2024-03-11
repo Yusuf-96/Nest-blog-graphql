@@ -18,7 +18,7 @@ export class UsersService {
 
     const user = await this.userRepository.findOneBy({ email });
 
-    if (email) {
+    if (user) {
       throw new Error('Email already exists');
     }
 
